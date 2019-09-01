@@ -1,0 +1,32 @@
+{
+  "name": "uses.tools",
+  "version": 2,
+  "alias": ["uses"],
+  "routes": [
+    {
+      "src": "/auth/connect",
+      "dest": "/api/auth/connect"
+    },
+    {
+      "src": "/auth/login",
+      "dest": "/api/auth/login"
+    },
+    {
+      "src": "/graphql",
+      "dest": "/api/graphql"
+    }
+  ],
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/next"
+    }
+  ],
+  "env": {
+    "BASE_URL": "@base-url",
+    "GITHUB_CLIENT_ID": "@github-client-id",
+    "GITHUB_CLIENT_SECRET": "@github-client-secret",
+    "JWT_SECRET": "@jwt-secret",
+    "PG_CONNECTION_STRING": "@pg-connection-string"
+  }
+}
