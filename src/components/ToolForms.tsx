@@ -52,6 +52,7 @@ const AddToolMutation = gql`
 `;
 
 export const AddToolForm = ({ category, close, refetchQueries }) => {
+  const [serverErrors, setServerErrors] = useState([]);
   const client = useApolloClient();
   const [suggestions, setSuggestions] = useState([]);
 
@@ -66,7 +67,7 @@ export const AddToolForm = ({ category, close, refetchQueries }) => {
       }}
       validationSchema={AddToolSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
-        await client.mutate({
+        const { data } = await client.mutate({
           mutation: AddToolMutation,
           variables: {
             input: {
@@ -80,9 +81,19 @@ export const AddToolForm = ({ category, close, refetchQueries }) => {
           },
           refetchQueries
         });
-        resetForm();
+        const {
+          addTool: { errors }
+        } = data;
+
         setSubmitting(false);
-        close();
+        setServerErrors([]);
+
+        if (errors.length === 0) {
+          resetForm();
+          close();
+        } else {
+          setServerErrors(errors);
+        }
       }}
     >
       {({
@@ -134,6 +145,12 @@ export const AddToolForm = ({ category, close, refetchQueries }) => {
                 setFieldValue("toolId", suggestion.id);
                 setFieldValue("url", suggestion.url);
               }}
+              onSuggestionHighlighted={({ suggestion }) => {
+                if (suggestion) {
+                  setFieldValue("toolId", suggestion.id);
+                  setFieldValue("url", suggestion.url);
+                }
+              }}
               inputProps={{
                 placeholder: "Enter or search for a tool",
                 value: values.name,
@@ -174,11 +191,16 @@ export const AddToolForm = ({ category, close, refetchQueries }) => {
               value={values.userUrl}
               className={errors.userUrl ? "hasError" : null}
             />
-            <FormError touched={touched.userUrl} error={errors.userUrl} />
-            <p>
+            <p
+              css={css`
+                font-size: 0.75rem;
+                margin: 0px;
+              `}
+            >
               If you have an affiliate link, we'll use that one for any user
               clicking to the tool from your page.
             </p>
+            <FormError touched={touched.userUrl} error={errors.userUrl} />
           </div>
 
           <div>
@@ -195,6 +217,17 @@ export const AddToolForm = ({ category, close, refetchQueries }) => {
               error={errors.description}
             />
           </div>
+
+          {serverErrors.length > 0 ? (
+            <p
+              css={css`
+                color: red;
+                font-size: 0.75rem;
+              `}
+            >
+              {serverErrors.join(",")}
+            </p>
+          ) : null}
 
           <div>
             <button type="submit" disabled={isSubmitting}>
@@ -343,13 +376,12 @@ const styles = {
       display: block;
       content: "";
       z-index: -1;
-      opacity: 0.2;
+      opacity: 1;
       top: 0;
       right: 0;
       bottom: 0;
       left: 0;
-      background: #fbd3e9;
-      background: linear-gradient(to right, #bb377d, #fbd3e9);
+      background: #8ac6d1;
     }
   `
 };

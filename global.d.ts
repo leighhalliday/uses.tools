@@ -13,6 +13,10 @@ interface Tool {
   id: number;
   name: string;
   url: string;
+  og_title: string | null;
+  og_description: string | null;
+  og_image_url: string | null;
+  twitter_handle: string | null;
 }
 
 interface UserTool {

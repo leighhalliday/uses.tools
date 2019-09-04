@@ -22,6 +22,19 @@ async function insertUserTool(data: any): Promise<UserTool> {
   return await findUserToolBy("id", id);
 }
 
+async function toolExistsForUser(
+  user_id: number,
+  tool_id: number
+): Promise<boolean> {
+  const userTool = await db
+    .select("id")
+    .from("user_tools")
+    .where({ user_id, tool_id })
+    .first();
+
+  return userTool ? true : false;
+}
+
 interface Args {
   input: AddToolInput;
 }
@@ -46,16 +59,33 @@ export async function addTool(_parent, { input }: Args, context: Context) {
     }
   }
 
-  const userTool: UserTool = await insertUserTool({
-    tool_id: tool.id,
-    user_id: context.currentUser.id,
-    category_id: input.categoryId,
-    url: input.userUrl,
-    description: input.description
-  });
+  const exists = await toolExistsForUser(context.currentUser.id, tool.id);
+  if (exists) {
+    return {
+      errors: ["Tool already exists"],
+      userTool: null
+    };
+  }
 
-  return {
-    errors: [],
-    userTool
-  };
+  try {
+    const userTool: UserTool = await insertUserTool({
+      tool_id: tool.id,
+      user_id: context.currentUser.id,
+      category_id: input.categoryId,
+      url: input.userUrl,
+      description: input.description
+    });
+
+    return {
+      errors: [],
+      userTool
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      errors: ["We encountered an error while saving tool"],
+      userTool: null
+    };
+  }
 }

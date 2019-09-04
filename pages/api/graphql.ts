@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { ApolloServer, gql } from "apollo-server-micro";
+import { ApolloServer, gql, AuthenticationError } from "apollo-server-micro";
 import DataLoader from "dataloader";
 import { db, findUserBy } from "@server/db";
 import { addTool, removeTool, editTool } from "@server/mutations";
@@ -9,6 +9,7 @@ const typeDefs = gql`
   type Query {
     tool(id: ID!): Tool
     tools(first: Int = 25, skip: Int = 0, search: String): [Tool!]!
+    featuredTools(first: Int = 25): [Tool!]!
     user(username: String!): User
     users(first: Int = 25, skip: Int = 0): [User!]!
     viewer: Viewer
@@ -58,6 +59,11 @@ const typeDefs = gql`
     id: ID!
     name: String!
     url: String!
+    ogTitle: String
+    ogDescription: String
+    ogImageUrl: String
+    twitterHandle: String
+    userTools(first: Int = 50, skip: Int = 0): [UserTool!]!
   }
 
   type User {
@@ -67,7 +73,7 @@ const typeDefs = gql`
     githubUrl: String!
     avatarUrl: String
     websiteUrl: String
-    userTools: [UserTool!]!
+    userTools(first: Int = 50, skip: Int = 0): [UserTool!]!
   }
 
   type Viewer {
@@ -80,6 +86,7 @@ const typeDefs = gql`
     id: ID!
     url: String
     position: Int!
+    user: User!
     category: Category!
     tool: Tool!
     description: String!
@@ -110,8 +117,20 @@ interface ToolsArgs extends PaginationArgs {
   search?: string;
 }
 
+interface FeaturedToolsArgs extends PaginationArgs {}
+
 const between = (min: number, max: number, num: number) =>
   Math.min(Math.max(min, num), max);
+
+function requireAuth(resolver: any) {
+  return async (parent: any, args: any, context: Context) => {
+    if (!context.currentUser) {
+      throw new AuthenticationError("must authenticate");
+    }
+
+    return resolver(parent, args, context);
+  };
+}
 
 const resolvers = {
   Query: {
@@ -146,7 +165,7 @@ const resolvers = {
       return db
         .select("*")
         .from("users")
-        .orderBy("name", "asc")
+        .orderBy("created_at", "desc")
         .limit(first)
         .offset(skip);
     },
@@ -173,13 +192,24 @@ const resolvers = {
         .orderBy("name", "asc")
         .limit(first)
         .offset(skip);
+    },
+
+    featuredTools: (_parent, args: FeaturedToolsArgs, _context) => {
+      const first = between(1, 50, args.first);
+
+      return db
+        .select("*")
+        .from("tools")
+        .whereNotNull("featured_at")
+        .orderBy("featured_at", "desc")
+        .limit(first);
     }
   },
 
   Mutation: {
-    addTool,
-    removeTool,
-    editTool
+    addTool: requireAuth(addTool),
+    removeTool: requireAuth(removeTool),
+    editTool: requireAuth(editTool)
   },
 
   User: {
@@ -188,16 +218,24 @@ const resolvers = {
       `https://avatars3.githubusercontent.com/u/${user.github_id}?v=4`,
     githubUrl: (user, _args, _context) => user.github_url,
     websiteUrl: (user, _args, _context) => user.website_url,
-    userTools: async (user, _args, _context) => {
+    userTools: async (user, args: PaginationArgs, _context) => {
+      const first = between(1, 100, args.first);
+      const skip = between(0, 100, args.skip);
+
       return db
         .select("*")
         .from("user_tools")
         .where({ user_id: user.id })
-        .orderBy("position", "asc");
+        .orderBy("position", "asc")
+        .limit(first)
+        .offset(skip);
     }
   },
 
   UserTool: {
+    user: async (userTool, _args, { loader }: Context) => {
+      return loader.user.load(userTool.user_id);
+    },
     tool: async (userTool, _args, { loader }: Context) => {
       return loader.tool.load(userTool.tool_id);
     },
@@ -207,7 +245,23 @@ const resolvers = {
   },
 
   Tool: {
-    id: (tool, _args, _context) => tool.id
+    id: (tool: Tool, _args, _context) => tool.id,
+    ogTitle: (tool: Tool, _args, _context) => tool.og_title,
+    ogDescription: (tool: Tool, _args, _context) => tool.og_description,
+    ogImageUrl: (tool: Tool, _args, _context) => tool.og_image_url,
+    twitterHandle: (tool: Tool, _args, _context) => tool.twitter_handle,
+    userTools: async (tool, args: PaginationArgs, _context) => {
+      const first = between(1, 100, args.first);
+      const skip = between(0, 100, args.skip);
+
+      return db
+        .select("*")
+        .from("user_tools")
+        .where({ tool_id: tool.id })
+        .orderBy("created_at", "desc")
+        .limit(first)
+        .offset(skip);
+    }
   },
 
   Category: {

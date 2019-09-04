@@ -13,6 +13,10 @@ export function Layout({ children }) {
       <Head>
         <title>uses.tools</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link
+          href="https://fonts.googleapis.com/css?family=Darker+Grotesque:500&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <nav
         css={css`
@@ -21,6 +25,7 @@ export function Layout({ children }) {
           position: fixed;
           top: 0px;
           display: flex;
+          align-items: center;
           background: #fff;
           z-index: 10;
 
@@ -29,18 +34,24 @@ export function Layout({ children }) {
             display: block;
             content: "";
             z-index: -1;
-            opacity: 0.2;
+            opacity: 1;
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
             background: #1fa2ff;
-            background: linear-gradient(to right, #a6ffcb, #12d8fa, #1fa2ff);
+            background-image: linear-gradient(
+              69.8deg,
+              rgba(25, 49, 108, 1) 2.8%,
+              rgba(1, 179, 201, 1) 97.8%
+            );
           }
 
           a {
             display: inline-block;
             padding: 0px 0.5rem;
+            color: #fff;
+            font-size: 0.8rem;
           }
         `}
       >
@@ -52,7 +63,10 @@ export function Layout({ children }) {
           <Link href="/">
             <a
               css={css`
-                color: black;
+                color: rgba(1, 179, 201, 1) !important;
+                font-family: "Darker Grotesque", sans-serif;
+                font-size: 1.5rem !important;
+                transform: translateY(-4px);
               `}
             >
               uses.tools
@@ -94,7 +108,7 @@ export function Layout({ children }) {
       <main
         css={css`
           padding: 1rem;
-          padding-top: 3rem;
+          padding-top: 4rem;
         `}
       >
         {children}
@@ -132,13 +146,24 @@ function GlobalStyles() {
           color: #05445c;
         }
 
+        img {
+          max-width: 100%;
+          display: inline-block;
+        }
+
+        p {
+          font-size: 1rem;
+          line-height: 1.4rem;
+        }
+
         input,
         textarea {
           width: 100%;
           padding: 0.25rem;
         }
 
-        button {
+        button,
+        a.button {
           border: 1px solid #3f3f3f;
           cursor: pointer;
           padding: 0.25rem 0.5rem;

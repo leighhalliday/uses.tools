@@ -1,3 +1,4 @@
+import { ForbiddenError } from "apollo-server-micro";
 import { db, findUserToolBy } from "@server/db";
 import { EditToolInput } from "@generated/globalTypes";
 
@@ -26,10 +27,7 @@ export async function editTool(_parent, { input }: Args, context: Context) {
   }
 
   if (userTool.user_id !== context.currentUser.id) {
-    return {
-      errors: ["User does not have permission to edit this tool"],
-      userTool: null
-    };
+    throw new ForbiddenError("User does not have permission to edit this tool");
   }
 
   userTool = await updateUserTool(userTool.id, {
