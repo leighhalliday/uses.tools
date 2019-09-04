@@ -4,15 +4,15 @@
   "routes": [
     {
       "src": "/auth/connect",
-      "dest": "/api/auth/connect"
+      "dest": "/api/auth/connect.ts"
     },
     {
       "src": "/auth/login",
-      "dest": "/api/auth/login"
+      "dest": "/api/auth/login.ts"
     },
     {
       "src": "/graphql",
-      "dest": "/api/graphql"
+      "dest": "/api/graphql.ts"
     }
   ],
   "builds": [
