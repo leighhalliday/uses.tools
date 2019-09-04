@@ -1,7 +1,6 @@
 {
   "name": "uses.tools",
   "version": 2,
-  "alias": ["uses"],
   "routes": [
     {
       "src": "/auth/connect",
