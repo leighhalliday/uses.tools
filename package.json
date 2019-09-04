@@ -53,6 +53,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "now-build": "next build && yarn db:migrate",
     "db:migrate": "knex migrate:latest",
     "db:rollback": "knex migrate:rollback",
     "apollo:generate": "apollo codegen:generate --excludes=node_modules/* --includes=**/*.tsx --endpoint http://localhost:3000/graphql --target typescript --tagName gql --outputFlat src/generated --passthroughCustomScalars --customScalarsPrefix Uses"
