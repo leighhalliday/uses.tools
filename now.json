@@ -31,7 +31,8 @@
   },
   "build": {
     "env": {
-      "BASE_URL": "@base-url"
+      "BASE_URL": "@base-url",
+      "PG_CONNECTION_STRING": "@pg-connection-string"
     }
   }
 }
