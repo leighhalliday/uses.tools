@@ -45,7 +45,7 @@
     "react-autosuggest": "^9.4.3",
     "react-dom": "^16.8.6",
     "universal-cookie": "^4.0.2",
-    "webpack-node-externals": "^1.7.2",
+    "webpack": "^4.39.3",
     "yarn": "^1.17.3",
     "yup": "^0.27.0"
   },
