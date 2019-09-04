@@ -1,4 +1,5 @@
 const withCSS = require("@zeit/next-css");
+
 module.exports = withCSS({
   webpack(config, _options) {
     config.externals = config.externals || [];
@@ -7,5 +8,8 @@ module.exports = withCSS({
     config.externals.push({ knex: "commonjs knex" });
 
     return config;
+  },
+  env: {
+    BASE_URL: process.env.BASE_URL
   }
 });
