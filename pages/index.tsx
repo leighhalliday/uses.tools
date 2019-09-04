@@ -49,7 +49,14 @@ const HomeUsers = ({ users }) => (
       display: flex;
       flex-wrap: wrap;
       flex-direction: column;
-      padding: 1rem;
+      padding: 0.5rem;
+
+      @media (max-width: 1024px) {
+        width: 60%;
+      }
+      @media (max-width: 800px) {
+        width: 100%;
+      }
     `}
   >
     <h2
@@ -103,7 +110,14 @@ const HomeTools = ({ tools }) => (
       display: flex;
       flex-wrap: wrap;
       flex-direction: column;
-      margin: 1rem 0px 2rem 0px;
+      padding: 0.5rem;
+
+      @media (max-width: 1024px) {
+        width: 40%;
+      }
+      @media (max-width: 800px) {
+        width: 100%;
+      }
     `}
   >
     <h2
@@ -151,6 +165,7 @@ const Home = ({ tools, users }: Props) => {
         css={css`
           display: flex;
           justify-content: center;
+          flex-wrap: wrap;
 
           a p {
             color: black !important;

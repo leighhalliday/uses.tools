@@ -56,7 +56,11 @@ interface CategoryProps {
 
 function Category({ category, userTools }: CategoryProps) {
   return (
-    <li>
+    <li
+      css={css`
+        margin-bottom: 2rem;
+      `}
+    >
       <h2>{category.name}</h2>
       <ul
         css={css`

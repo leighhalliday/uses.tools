@@ -66,11 +66,11 @@ const EditTool = ({ userTool, username }) => {
 
   return (
     <li>
-      <h4>
+      <h3>
         <a href={userTool.url || userTool.tool.url} target="_blank">
           {userTool.tool.name}
         </a>
-      </h4>
+      </h3>
 
       <p>{userTool.description}</p>
 
@@ -113,8 +113,13 @@ const EditCategory = ({ category, userTools, username }) => {
   const [adding, setAdding] = useState(false);
 
   return (
-    <li key={category.id}>
-      <h3>{category.name}</h3>
+    <li
+      key={category.id}
+      css={css`
+        margin-bottom: 2rem;
+      `}
+    >
+      <h2>{category.name}</h2>
       {category.description ? <p>{category.description}</p> : null}
       <ul
         css={css`
@@ -138,7 +143,7 @@ const EditCategory = ({ category, userTools, username }) => {
         />
       ) : (
         <p>
-          <button onClick={() => setAdding(!adding)}>Add</button>
+          <button onClick={() => setAdding(!adding)}>Add Tool</button>
         </p>
       )}
     </li>

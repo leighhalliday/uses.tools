@@ -8,9 +8,11 @@ const ToolShowQuery = gql`
     tool(id: $id) {
       id
       name
+      url
       ogImageUrl
       ogTitle
       ogDescription
+      twitterHandle
       userTools(first: 50) {
         id
         user {
@@ -23,6 +25,18 @@ const ToolShowQuery = gql`
     }
   }
 `;
+
+const ExternalLinkImage = () => (
+  <img
+    src="/static/link-external.png"
+    title="external"
+    css={css`
+      margin-left: 0.25rem;
+      height: 1rem;
+      transform: translateY(3px);
+    `}
+  />
+);
 
 const Tool = ({ tool }) => {
   return (
@@ -53,6 +67,33 @@ const Tool = ({ tool }) => {
               title={tool.ogTitle || tool.name}
             />
           )}
+
+          <p
+            css={css`
+              text-align: center;
+
+              a {
+                display: inline-block;
+                padding: 0px 0.5rem;
+              }
+            `}
+          >
+            <a href={tool.url} title={tool.name} target="_blank">
+              {tool.url}
+              <ExternalLinkImage />
+            </a>
+            {tool.twitterHandle ? (
+              <a
+                href={`https://www.twitter.com/${tool.twitterHandle}`}
+                title="Twitter"
+                target="_blank"
+              >
+                {tool.twitterHandle}
+                <ExternalLinkImage />
+              </a>
+            ) : null}
+          </p>
+
           {tool.ogDescription && <p>{tool.ogDescription}</p>}
         </div>
 
