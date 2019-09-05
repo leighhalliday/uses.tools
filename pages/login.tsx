@@ -12,7 +12,7 @@ const Login = () => {
         `}
       >
         <a
-          href="/auth/login"
+          href="/api/auth/login"
           className="button"
           css={css`
             display: inline-block;
