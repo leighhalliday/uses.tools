@@ -72,7 +72,6 @@ const Tool = ({ tool }) => {
               css={css`
                 display: block;
                 margin: 0 auto;
-                width: 100%;
                 max-width: 600px;
               `}
               src={tool.ogImageUrl}

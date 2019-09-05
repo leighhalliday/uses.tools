@@ -149,7 +149,14 @@ const HomeTools = ({ tools }) => (
               {tool.name}
             </h3>
             {tool.ogImageUrl && (
-              <img src={tool.ogImageUrl} title={tool.ogTitle || tool.name} />
+              <img
+                src={tool.ogImageUrl}
+                title={tool.ogTitle || tool.name}
+                css={css`
+                  display: block;
+                  margin: 0 auto;
+                `}
+              />
             )}
             {tool.ogDescription || tool.ogTitle ? (
               <p>{tool.ogDescription || tool.ogTitle}</p>
