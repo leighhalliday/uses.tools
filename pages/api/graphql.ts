@@ -235,7 +235,7 @@ const resolvers = {
         .select("*")
         .from("user_tools")
         .where({ user_id: user.id })
-        .orderBy("position", "asc")
+        .orderBy("created_at", "asc")
         .limit(first)
         .offset(skip);
     }
