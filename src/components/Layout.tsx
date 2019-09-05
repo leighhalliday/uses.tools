@@ -107,11 +107,31 @@ export function Layout({ children }) {
       </nav>
       <main
         css={css`
+          position: relative;
+          height: auto;
           padding: 1rem;
           padding-top: 4rem;
+          padding-bottom: 2rem;
+          min-height: 100vh;
         `}
       >
         {children}
+
+        <footer
+          css={css`
+            position: absolute;
+            bottom: 1rem;
+            width: 100%;
+          `}
+        >
+          <a
+            href="https://twitter.com/usestools"
+            target="_blank"
+            rel="noopener"
+          >
+            @usestools
+          </a>
+        </footer>
       </main>
     </div>
   );

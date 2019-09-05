@@ -42,11 +42,11 @@ export function ProfileHeader({ user }: Props) {
         `}
       >
         {user.websiteUrl ? (
-          <a href={user.websiteUrl} target="_blank">
+          <a href={user.websiteUrl} target="_blank" rel="noopener">
             Website
           </a>
         ) : null}
-        <a href={user.githubUrl} target="_blank">
+        <a href={user.githubUrl} target="_blank" rel="noopener">
           GitHub
         </a>
       </p>
