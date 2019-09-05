@@ -75,7 +75,8 @@ const Tool = ({ tool }) => {
               css={css`
                 display: block;
                 margin: 0 auto;
-                max-width: 600px;
+                max-width: 100%;
+                max-height: 250px;
               `}
               src={tool.ogImageUrl}
               title={tool.ogTitle || tool.name}
