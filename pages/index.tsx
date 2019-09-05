@@ -155,6 +155,7 @@ const HomeTools = ({ tools }) => (
                 css={css`
                   display: block;
                   margin: 0 auto;
+                  max-height: 200px;
                 `}
               />
             )}
