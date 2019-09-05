@@ -27,6 +27,7 @@
     "cookies-next": "^1.0.6",
     "dataloader": "^1.4.0",
     "date-fns": "^2.0.1",
+    "death": "^1.1.0",
     "formik": "^1.5.8",
     "graphql": "^14.4.2",
     "immer": "^3.1.3",

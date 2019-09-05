@@ -1,9 +1,17 @@
 import knex from "knex";
+import onDeath from "death";
 
 const db = knex({
   client: "pg",
   connection: process.env.PG_CONNECTION_STRING,
-  debug: false
+  debug: false,
+  pool: { min: 1, max: 1 }
+});
+
+// Try to catch node shutting down and explicitly close
+// connection to database
+onDeath(() => {
+  db.destroy();
 });
 
 export async function findToolBy(
