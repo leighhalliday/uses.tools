@@ -43,6 +43,10 @@ async function updateToolOg(tool: Tool) {
         ogImageUrl = data.ogImage.url;
       }
     }
+    // only save images that start with http
+    if (ogImageUrl && !ogImageUrl.startsWith("http")) {
+      ogImageUrl = null;
+    }
 
     await updateTool(tool.id, {
       og_result: true,
