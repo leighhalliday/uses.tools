@@ -102,6 +102,7 @@ const Uses = ({ user, categories }) => {
     <Layout>
       <Head>
         <title>{user.name}</title>
+        <meta name="description" content={`Tools used by ${user.name}`} />
         <meta property="og:title" content={user.name} />
         <meta
           property="og:description"

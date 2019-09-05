@@ -44,6 +44,9 @@ const Tool = ({ tool }) => {
     <Layout>
       <Head>
         <title>{tool.name}</title>
+        {tool.ogDescription ? (
+          <meta name="description" content={tool.ogDescription} />
+        ) : null}
         <meta property="og:title" content={tool.ogTitle || tool.name} />
         {tool.ogDescription ? (
           <meta property="og:description" content={tool.ogDescription} />
