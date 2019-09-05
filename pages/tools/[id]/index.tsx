@@ -40,20 +40,31 @@ const ExternalLinkImage = () => (
 );
 
 const Tool = ({ tool }) => {
+  const title = tool.ogTitle || tool.name;
+
   return (
     <Layout>
       <Head>
-        <title>{tool.name}</title>
+        <title>{title}</title>
+        <meta property="og:title" content={title} />
+        <meta name="twitter:title" content={title} />
+
         {tool.ogDescription ? (
-          <meta name="description" content={tool.ogDescription} />
+          <>
+            <meta name="description" content={tool.ogDescription} />
+            <meta property="og:description" content={tool.ogDescription} />
+            <meta name="twitter:description" content={tool.ogDescription} />
+          </>
         ) : null}
-        <meta property="og:title" content={tool.ogTitle || tool.name} />
-        {tool.ogDescription ? (
-          <meta property="og:description" content={tool.ogDescription} />
-        ) : null}
+
         {tool.ogImageUrl ? (
-          <meta property="og:image" content={tool.ogImageUrl} />
+          <>
+            <meta property="og:image" content={tool.ogImageUrl} />
+            <meta name="twitter:image" content={tool.ogImageUrl} />
+          </>
         ) : null}
+
+        <meta name="twitter:card" content="summary" />
       </Head>
 
       <div
