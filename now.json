@@ -7,6 +7,7 @@
       "use": "@now/next"
     }
   ],
+  "routes": [{ "src": "/robots.txt", "dest": "/static/robots.txt" }],
   "regions": ["iad1"],
   "env": {
     "BASE_URL": "@base-url",
