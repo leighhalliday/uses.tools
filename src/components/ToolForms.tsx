@@ -368,6 +368,7 @@ export const EditToolForm = ({ userTool, close, refetchQueries }) => {
 
 const styles = {
   form: css`
+    margin-top: 1rem;
     padding: 1rem;
     position: relative;
 
