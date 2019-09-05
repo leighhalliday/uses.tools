@@ -12,6 +12,7 @@ const typeDefs = gql`
     featuredTools(first: Int = 25): [Tool!]!
     user(username: String!): User
     users(first: Int = 25, skip: Int = 0): [User!]!
+    featuredUsers(first: Int = 25): [User!]!
     viewer: Viewer
     categories(first: Int = 25, skip: Int = 0): [Category!]!
   }
@@ -103,21 +104,18 @@ const typeDefs = gql`
 interface FindByIdArgs {
   id: string;
 }
-
 interface FindByUsernameArgs {
   username: string;
 }
-
 interface PaginationArgs {
   first?: number;
   skip?: number;
 }
-
 interface ToolsArgs extends PaginationArgs {
   search?: string;
 }
-
 interface FeaturedToolsArgs extends PaginationArgs {}
+interface FeaturedUsersArgs extends PaginationArgs {}
 
 const between = (min: number, max: number, num: number) =>
   Math.min(Math.max(min, num), max);
@@ -202,6 +200,17 @@ const resolvers = {
         .from("tools")
         .whereNotNull("featured_at")
         .orderBy("featured_at", "desc")
+        .limit(first);
+    },
+
+    featuredUsers: (_parent, args: FeaturedUsersArgs, _context) => {
+      const first = between(1, 50, args.first);
+
+      return db
+        .select("*")
+        .from("users")
+        .where("tools_count", ">", 0)
+        .orderBy("created_at", "desc")
         .limit(first);
     }
   },

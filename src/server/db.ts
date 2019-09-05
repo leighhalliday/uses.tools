@@ -4,7 +4,7 @@ import onDeath from "death";
 const db = knex({
   client: "pg",
   connection: process.env.PG_CONNECTION_STRING,
-  debug: true,
+  debug: false,
   pool: { min: 1, max: 1 }
 });
 
@@ -45,6 +45,20 @@ export async function findUserToolBy(
     .from("user_tools")
     .where({ [field]: value })
     .first();
+}
+
+export async function refreshUserToolsCount(userId: number) {
+  const countResult = await db("user_tools")
+    .where({ user_id: userId })
+    .count("id")
+    .first();
+
+  await db("users")
+    .where({ id: userId })
+    .update({
+      tools_count: countResult.count,
+      updated_at: new Date().toISOString()
+    });
 }
 
 export { db };

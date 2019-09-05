@@ -1,4 +1,4 @@
-import { db } from "@server/db";
+import { db, refreshUserToolsCount } from "@server/db";
 
 interface DeleteArgs {
   toolId: number;
@@ -25,6 +25,7 @@ export async function removeTool(_parent, { input }: Args, context: Context) {
     toolId: input.toolId,
     userId: context.currentUser.id
   });
+  await refreshUserToolsCount(context.currentUser.id);
 
   return {
     errors: []

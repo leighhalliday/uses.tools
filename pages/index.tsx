@@ -5,7 +5,7 @@ import { Layout } from "@components/Layout";
 
 const HomeQuery = gql`
   query HomeData {
-    users(first: 5) {
+    featuredUsers(first: 5) {
       id
       username
       name
@@ -186,9 +186,9 @@ Home.getInitialProps = async ({ apolloClient }: any) => {
     query: HomeQuery,
     variables: {}
   });
-  const { featuredTools, users } = data;
+  const { featuredTools, featuredUsers } = data;
 
-  return { tools: featuredTools, users };
+  return { tools: featuredTools, users: featuredUsers };
 };
 
 const styles = {

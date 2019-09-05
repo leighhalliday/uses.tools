@@ -1,4 +1,9 @@
-import { db, findToolBy, findUserToolBy } from "@server/db";
+import {
+  db,
+  findToolBy,
+  findUserToolBy,
+  refreshUserToolsCount
+} from "@server/db";
 import { AddToolInput } from "@generated/globalTypes";
 
 async function insertTool(data: any): Promise<Tool> {
@@ -75,6 +80,7 @@ export async function addTool(_parent, { input }: Args, context: Context) {
       url: input.userUrl,
       description: input.description
     });
+    await refreshUserToolsCount(context.currentUser.id);
 
     return {
       errors: [],
@@ -82,7 +88,6 @@ export async function addTool(_parent, { input }: Args, context: Context) {
     };
   } catch (error) {
     console.error(error);
-
     return {
       errors: ["We encountered an error while saving tool"],
       userTool: null
