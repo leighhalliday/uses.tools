@@ -34,8 +34,6 @@ async function updateToolOg(tool: Tool) {
   });
   const { success, data } = result;
 
-  console.log(result);
-
   if (success) {
     let ogImageUrl: string | null = null;
     if (data.ogImage) {
