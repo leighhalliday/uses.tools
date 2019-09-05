@@ -34,6 +34,8 @@ async function updateToolOg(tool: Tool) {
   });
   const { success, data } = result;
 
+  console.log("OG Result", result);
+
   if (success) {
     await updateTool(tool.id, {
       og_result: true,
