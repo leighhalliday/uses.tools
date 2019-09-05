@@ -102,7 +102,7 @@ function UserTool({ userTool }: UserToolProps) {
 const buildDescription = (userTools): string => {
   const description = userTools.reduce((acc, { tool }) => {
     const newAcc = acc === "" ? tool.name : `${acc}, ${tool.name}`;
-    if (newAcc.length > 125) {
+    if (newAcc.length > 100) {
       return acc;
     } else {
       return newAcc;
@@ -145,7 +145,7 @@ const Uses = ({ user, categories }) => {
         <meta property="og:image" content={ogImageUrl} />
         <meta name="twitter:image" content={ogImageUrl} />
 
-        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
 
       <ProfileHeader user={user} />

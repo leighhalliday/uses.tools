@@ -64,7 +64,7 @@ const Tool = ({ tool }) => {
           </>
         ) : null}
 
-        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
 
       <div
