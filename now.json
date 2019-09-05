@@ -1,20 +1,6 @@
 {
   "name": "uses.tools",
   "version": 2,
-  "routes": [
-    {
-      "src": "/auth/connect",
-      "dest": "/api/auth/connect"
-    },
-    {
-      "src": "/auth/login",
-      "dest": "/api/auth/login"
-    },
-    {
-      "src": "/graphql",
-      "dest": "/api/graphql"
-    }
-  ],
   "builds": [
     {
       "src": "package.json",
