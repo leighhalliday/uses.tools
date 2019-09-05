@@ -6,7 +6,7 @@ import { Layout } from "@components/Layout";
 
 const HomeQuery = gql`
   query HomeData {
-    featuredUsers(first: 5) {
+    featuredUsers(first: 10) {
       id
       username
       name
