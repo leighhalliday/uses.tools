@@ -41,7 +41,7 @@ async function getUser(accessToken) {
 async function insertUser(data: GithubData): Promise<User | null> {
   await db("users").insert({
     name: data.name,
-    username: data.login,
+    username: data.login.toLowerCase(),
     github_id: data.id,
     website_url: data.blog,
     github_url: data.html_url,

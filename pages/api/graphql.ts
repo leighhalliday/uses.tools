@@ -152,7 +152,7 @@ const resolvers = {
       return db
         .select("*")
         .from("users")
-        .where({ username: args.username })
+        .where({ username: args.username.toLowerCase() })
         .first();
     },
 
@@ -223,11 +223,20 @@ const resolvers = {
 
   User: {
     id: (user, _args, _context) => user.id,
-    avatarUrl: (user, _args, _context) =>
+    avatarUrl: (user: User, _args, _context) =>
       `https://avatars3.githubusercontent.com/u/${user.github_id}?v=4`,
     githubUrl: (user, _args, _context) => user.github_url,
-    websiteUrl: (user, _args, _context) => user.website_url,
-    userTools: async (user, args: PaginationArgs, _context) => {
+    websiteUrl: (user: User, _args, _context) => {
+      const { website_url: websiteUrl } = user;
+      if (!websiteUrl) {
+        return null;
+      }
+      if (websiteUrl.startsWith("http")) {
+        return websiteUrl;
+      }
+      return `https://${websiteUrl}`;
+    },
+    userTools: async (user: User, args: PaginationArgs, _context) => {
       const first = between(1, 100, args.first);
       const skip = between(0, 100, args.skip);
 
