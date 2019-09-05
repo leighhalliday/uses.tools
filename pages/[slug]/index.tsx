@@ -99,19 +99,53 @@ function UserTool({ userTool }: UserToolProps) {
   );
 }
 
+const buildDescription = (userTools): string => {
+  const description = userTools.reduce((acc, { tool }) => {
+    const newAcc = acc === "" ? tool.name : `${acc}, ${tool.name}`;
+    if (newAcc.length > 125) {
+      return acc;
+    } else {
+      return newAcc;
+    }
+  }, "");
+
+  return description.trimStart();
+};
+
+const buildURL = (url: string, obj: object) => {
+  const query = Object.entries(obj)
+    .map(pair => pair.map(encodeURIComponent).join("="))
+    .join("&");
+
+  return `${url}?${query}`;
+};
+
 const Uses = ({ user, categories }) => {
   const categoryTools = mapCategoryTools(user.userTools);
+  const description = buildDescription(user.userTools);
+
+  const ogImageUrl = buildURL("https://leighhalliday-og-image.now.sh/og.jpg", {
+    author: user.name,
+    website: `uses.tools`,
+    title: description,
+    image: user.avatarUrl
+  });
 
   return (
     <Layout>
       <Head>
         <title>{user.name}</title>
-        <meta name="description" content={`Tools used by ${user.name}`} />
         <meta property="og:title" content={user.name} />
-        <meta
-          property="og:description"
-          content={`Tools used by ${user.name}`}
-        />
+        <meta name="twitter:title" content={user.name} />
+
+        <meta name="description" content={description} />
+        <meta property="og:description" content={description} />
+        <meta name="twitter:description" content={description} />
+
+        <meta property="og:image" content={ogImageUrl} />
+        <meta name="twitter:image" content={ogImageUrl} />
+
+        <meta name="twitter:card" content="summary" />
       </Head>
 
       <ProfileHeader user={user} />
