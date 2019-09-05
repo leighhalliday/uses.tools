@@ -150,7 +150,9 @@ const HomeTools = ({ tools }) => (
             {tool.ogImageUrl && (
               <img src={tool.ogImageUrl} title={tool.ogTitle || tool.name} />
             )}
-            {tool.ogDescription && <p>{tool.ogDescription}</p>}
+            {tool.ogDescription || tool.ogTitle ? (
+              <p>{tool.ogDescription || tool.ogTitle}</p>
+            ) : null}
           </a>
         </Link>
       </div>
