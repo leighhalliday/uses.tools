@@ -19,7 +19,7 @@ async function exchangeCode(code: string) {
     {
       client_id: process.env.GITHUB_CLIENT_ID,
       client_secret: process.env.GITHUB_CLIENT_SECRET,
-      redirect_uri: `${process.env.BASE_URL}/auth/connect`,
+      redirect_uri: `${process.env.BASE_URL}/api/auth/connect`,
       code
     },
     {
