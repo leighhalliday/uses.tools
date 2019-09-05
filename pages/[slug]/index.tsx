@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import Head from "next/head";
 import { css } from "@emotion/core";
 import { Layout } from "@components/Layout";
 import { ProfileHeader } from "@components/ProfileHeader";
@@ -99,6 +100,15 @@ const Uses = ({ user, categories }) => {
 
   return (
     <Layout>
+      <Head>
+        <title>{user.name}</title>
+        <meta property="og:title" content={user.name} />
+        <meta
+          property="og:description"
+          content={`Tools used by ${user.name}`}
+        />
+      </Head>
+
       <ProfileHeader user={user} />
 
       <ul

@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import Head from "next/head";
 import { css } from "@emotion/core";
 import Link from "next/link";
 import { Layout } from "@components/Layout";
@@ -41,6 +42,17 @@ const ExternalLinkImage = () => (
 const Tool = ({ tool }) => {
   return (
     <Layout>
+      <Head>
+        <title>{tool.name}</title>
+        <meta property="og:title" content={tool.ogTitle || tool.name} />
+        {tool.ogDescription ? (
+          <meta property="og:description" content={tool.ogDescription} />
+        ) : null}
+        {tool.ogImageUrl ? (
+          <meta property="og:image" content={tool.ogImageUrl} />
+        ) : null}
+      </Head>
+
       <div
         css={css`
           margin: 0 auto;

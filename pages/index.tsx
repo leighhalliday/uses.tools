@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 import Link from "next/link";
+import Head from "next/head";
 import { css } from "@emotion/core";
 import { Layout } from "@components/Layout";
 
@@ -163,6 +164,14 @@ const HomeTools = ({ tools }) => (
 const Home = ({ tools, users }: Props) => {
   return (
     <Layout>
+      <Head>
+        <title>uses.tools</title>
+        <meta property="og:title" content="uses.tools" />
+        <meta
+          property="og:description"
+          content="Share the tools that you use as a developer or designer."
+        />
+      </Head>
       <div
         css={css`
           display: flex;
