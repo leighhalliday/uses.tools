@@ -121,7 +121,7 @@ export function Layout({ children }) {
           css={css`
             position: absolute;
             bottom: 1rem;
-            width: 100%;
+            width: calc(100% - 2rem);
           `}
         >
           <a
