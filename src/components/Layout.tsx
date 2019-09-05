@@ -17,6 +17,10 @@ export function Layout({ children }) {
           href="https://fonts.googleapis.com/css?family=Darker+Grotesque:500&display=swap"
           rel="stylesheet"
         />
+        <meta
+          name="google-site-verification"
+          content="tb-2fNRCzypRXEqOHVFo_e4-XgSBgid7ejO_MPRdFkA"
+        />
       </Head>
       <nav
         css={css`
