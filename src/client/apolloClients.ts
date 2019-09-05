@@ -24,7 +24,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: `${process.env.BASE_URL}/graphql`,
+  uri: `${process.env.BASE_URL}/api/graphql`,
   fetch
 });
 
