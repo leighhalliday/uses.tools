@@ -2,7 +2,8 @@ import {
   db,
   findToolBy,
   findUserToolBy,
-  refreshUserToolsCount
+  refreshUserToolsCount,
+  refreshToolUsersCount
 } from "@server/db";
 import { AddToolInput } from "@generated/globalTypes";
 
@@ -11,7 +12,9 @@ async function insertTool(data: any): Promise<Tool> {
     .returning("id")
     .insert({
       name: data.name,
-      url: data.url
+      url: data.url,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     });
   return await findToolBy("id", id);
 }
@@ -80,7 +83,10 @@ export async function addTool(_parent, { input }: Args, context: Context) {
       url: input.userUrl,
       description: input.description
     });
-    await refreshUserToolsCount(context.currentUser.id);
+    await Promise.all([
+      refreshUserToolsCount(context.currentUser.id),
+      refreshToolUsersCount(tool.id)
+    ]);
 
     return {
       errors: [],

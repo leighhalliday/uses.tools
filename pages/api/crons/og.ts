@@ -34,16 +34,25 @@ async function updateToolOg(tool: Tool) {
   });
   const { success, data } = result;
 
-  console.log("OG Result", result);
+  console.log(result);
 
   if (success) {
+    let ogImageUrl: string | null = null;
+    if (data.ogImage) {
+      if (Array.isArray(data.ogImage)) {
+        ogImageUrl = data.ogImage[0].url;
+      } else {
+        ogImageUrl = data.ogImage.url;
+      }
+    }
+
     await updateTool(tool.id, {
       og_result: true,
       og_synced_at: new Date(),
       twitter_handle: data.twitterSite,
-      og_title: data.ogTitle,
+      og_title: data.ogTitle ? `${data.ogTitle}`.substring(0, 255) : null,
       og_description: data.ogDescription,
-      og_image_url: data.ogImage && data.ogImage.url
+      og_image_url: ogImageUrl
     });
   } else {
     await updateTool(tool.id, { og_result: false, og_synced_at: new Date() });
@@ -54,7 +63,12 @@ export default async function(_req: IncomingMessage, res: ServerResponse) {
   const tools = await toolsMissingOg();
 
   const promises = tools.map(async tool => {
-    await updateToolOg(tool);
+    try {
+      await updateToolOg(tool);
+    } catch (error) {
+      console.error(error);
+      await updateTool(tool.id, { og_result: false, og_synced_at: new Date() });
+    }
   });
   await Promise.all(promises);
 

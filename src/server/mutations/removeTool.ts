@@ -1,4 +1,4 @@
-import { db, refreshUserToolsCount } from "@server/db";
+import { db, refreshUserToolsCount, refreshToolUsersCount } from "@server/db";
 
 interface DeleteArgs {
   toolId: number;
@@ -25,7 +25,11 @@ export async function removeTool(_parent, { input }: Args, context: Context) {
     toolId: input.toolId,
     userId: context.currentUser.id
   });
-  await refreshUserToolsCount(context.currentUser.id);
+
+  await Promise.all([
+    refreshUserToolsCount(context.currentUser.id),
+    refreshToolUsersCount(input.toolId)
+  ]);
 
   return {
     errors: []

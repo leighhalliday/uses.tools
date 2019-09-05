@@ -61,4 +61,18 @@ export async function refreshUserToolsCount(userId: number) {
     });
 }
 
+export async function refreshToolUsersCount(toolId: number) {
+  const countResult = await db("user_tools")
+    .where({ tool_id: toolId })
+    .count("id")
+    .first();
+
+  await db("tools")
+    .where({ id: toolId })
+    .update({
+      users_count: countResult.count,
+      updated_at: new Date().toISOString()
+    });
+}
+
 export { db };

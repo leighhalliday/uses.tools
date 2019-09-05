@@ -7,6 +7,7 @@ interface User {
   github_url: string;
   created_at: string;
   updated_at: string;
+  tool_count: number;
 }
 
 interface Tool {
@@ -17,6 +18,9 @@ interface Tool {
   og_description: string | null;
   og_image_url: string | null;
   twitter_handle: string | null;
+  user_count: number;
+  created_at: string | null;
+  updated_at: string | null;
 }
 
 interface UserTool {
