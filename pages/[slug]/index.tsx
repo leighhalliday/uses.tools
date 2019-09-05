@@ -86,7 +86,11 @@ function UserTool({ userTool }: UserToolProps) {
   return (
     <li>
       <h3>
-        <a href={userTool.url || userTool.tool.url} target="_blank">
+        <a
+          href={userTool.url || userTool.tool.url}
+          target="_blank"
+          rel="noopener"
+        >
           {userTool.tool.name}
         </a>
       </h3>

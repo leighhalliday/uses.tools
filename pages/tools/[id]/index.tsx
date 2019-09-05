@@ -92,7 +92,7 @@ const Tool = ({ tool }) => {
               }
             `}
           >
-            <a href={tool.url} title={tool.name} target="_blank">
+            <a href={tool.url} title={tool.name} target="_blank" rel="noopener">
               {tool.url}
               <ExternalLinkImage />
             </a>
@@ -101,6 +101,7 @@ const Tool = ({ tool }) => {
                 href={`https://www.twitter.com/${tool.twitterHandle}`}
                 title="Twitter"
                 target="_blank"
+                rel="noopener"
               >
                 {tool.twitterHandle}
                 <ExternalLinkImage />
