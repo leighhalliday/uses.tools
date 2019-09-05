@@ -53,9 +53,10 @@ async function updateToolOg(tool: Tool) {
 export default async function(_req: IncomingMessage, res: ServerResponse) {
   const tools = await toolsMissingOg();
 
-  tools.forEach(async tool => {
+  const promises = tools.map(async tool => {
     await updateToolOg(tool);
   });
+  await Promise.all(promises);
 
   return res.end(`Updated ${tools.length} Tools`);
 }
