@@ -2,6 +2,8 @@ import App, { Container } from "next/app";
 import React from "react";
 import { ApolloProvider } from "react-apollo";
 import { ApolloProvider as ApolloHooksProvider } from "react-apollo-hooks";
+import Router from "next/router";
+import withGA from "next-ga";
 import { withApollo } from "@client/withApollo";
 import { withAuth, AuthProvider } from "@client/withAuth";
 
@@ -30,4 +32,4 @@ class MyApp extends App<Props> {
   }
 }
 
-export default withApollo(withAuth(MyApp));
+export default withGA("UA-56612129-7", Router)(withApollo(withAuth(MyApp)));
