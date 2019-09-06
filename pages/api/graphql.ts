@@ -234,7 +234,7 @@ const resolvers = {
       if (websiteUrl.startsWith("http")) {
         return websiteUrl;
       }
-      return `https://${websiteUrl}`;
+      return `http://${websiteUrl}`;
     },
     userTools: async (user: User, args: PaginationArgs, _context) => {
       const first = between(1, 100, args.first);
