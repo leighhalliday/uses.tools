@@ -236,10 +236,11 @@ function GlobalStyles() {
 
         .react-autosuggest__suggestions-container--open {
           display: block;
-          position: relative;
-          top: -1px;
+          position: absolute;
+          top: 2.3rem;
           width: 280px;
           border: 1px solid #aaa;
+          box-sizing: border-box;
           background-color: #fff;
           font-family: "Open Sans", sans-serif;
           font-weight: 300;

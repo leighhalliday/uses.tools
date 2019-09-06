@@ -158,7 +158,6 @@ export const AddToolForm = ({ category, close, refetchQueries }) => {
                 onChange: (_event, { newValue }) => {
                   setFieldValue("name", newValue);
                   setFieldValue("toolId", "");
-                  setFieldValue("url", "");
                 },
                 onBlur: handleBlur,
                 className: errors.name ? "hasError" : null
