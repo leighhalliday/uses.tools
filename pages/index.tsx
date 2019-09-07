@@ -3,6 +3,8 @@ import Link from "next/link";
 import Head from "next/head";
 import { css } from "@emotion/core";
 import { Layout } from "@components/Layout";
+import { slugify } from "@client/slugify";
+import styles from "@client/styles";
 
 const HomeQuery = gql`
   query HomeData {
@@ -28,15 +30,6 @@ const HomeQuery = gql`
     }
   }
 `;
-
-const slugify = (id: string, name: string): string => {
-  const slugName = name
-    .toLowerCase()
-    .replace(" ", "-")
-    .replace(/[^a-z_]/g, "");
-
-  return `${id}-${slugName}`;
-};
 
 interface Props {
   tools: any;
@@ -166,6 +159,12 @@ const HomeTools = ({ tools }) => (
         </Link>
       </div>
     ))}
+
+    <p>
+      <Link href="/tools">
+        <a>View All Tools</a>
+      </Link>
+    </p>
   </div>
 );
 
@@ -206,24 +205,6 @@ Home.getInitialProps = async ({ apolloClient }: any) => {
   const { featuredTools, featuredUsers } = data;
 
   return { tools: featuredTools, users: featuredUsers };
-};
-
-const styles = {
-  card: css`
-    transition: box-shadow 0.3s ease-in-out;
-    display: block;
-    min-height: 4rem;
-    padding: 0.5rem;
-    border-radius: 0.25rem;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-      rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 2px 1px -1px;
-
-    &:hover {
-      box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 3px 0px,
-        rgba(0, 0, 0, 0.14) 0px 1px 1px 0px,
-        rgba(0, 0, 0, 0.12) 0px 2px 1px -1px;
-    }
-  `
 };
 
 export default Home;

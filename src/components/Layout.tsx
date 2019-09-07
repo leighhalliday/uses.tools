@@ -111,7 +111,7 @@ export function Layout({ children }) {
           height: auto;
           padding: 1rem;
           padding-top: 4rem;
-          padding-bottom: 2rem;
+          padding-bottom: 3rem;
           min-height: 100vh;
         `}
       >
@@ -120,10 +120,29 @@ export function Layout({ children }) {
         <footer
           css={css`
             position: absolute;
-            bottom: 1rem;
-            width: calc(100% - 2rem);
+            bottom: 0rem;
+            left: -1rem;
+            right: -1rem;
+            padding: 1rem;
+            padding-left: 2rem;
           `}
         >
+          <div
+            css={css`
+              position: absolute;
+              top: 0;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              background-image: linear-gradient(
+                69.8deg,
+                rgba(25, 49, 108, 1) 2.8%,
+                rgba(1, 179, 201, 1) 97.8%
+              );
+              z-index: -1;
+              opacity: 0.1;
+            `}
+          ></div>
           <a
             href="https://twitter.com/usestools"
             target="_blank"

@@ -64,6 +64,7 @@ const typeDefs = gql`
     ogDescription: String
     ogImageUrl: String
     twitterHandle: String
+    usersCount: Int!
     userTools(first: Int = 50, skip: Int = 0): [UserTool!]!
   }
 
@@ -74,6 +75,7 @@ const typeDefs = gql`
     githubUrl: String!
     avatarUrl: String
     websiteUrl: String
+    toolsCount: Int!
     userTools(first: Int = 50, skip: Int = 0): [UserTool!]!
   }
 
@@ -236,6 +238,7 @@ const resolvers = {
       }
       return `http://${websiteUrl}`;
     },
+    toolsCount: (user: User, _args, _context) => user.tools_count,
     userTools: async (user: User, args: PaginationArgs, _context) => {
       const first = between(1, 100, args.first);
       const skip = between(0, 100, args.skip);
@@ -268,6 +271,7 @@ const resolvers = {
     ogDescription: (tool: Tool, _args, _context) => tool.og_description,
     ogImageUrl: (tool: Tool, _args, _context) => tool.og_image_url,
     twitterHandle: (tool: Tool, _args, _context) => tool.twitter_handle,
+    usersCount: (tool: Tool, _args, _context) => tool.users_count,
     userTools: async (tool, args: PaginationArgs, _context) => {
       const first = between(1, 100, args.first);
       const skip = between(0, 100, args.skip);
