@@ -172,7 +172,7 @@ const Tools = ({ tools, page, nextPage, prevPage }) => {
 
 Tools.getInitialProps = async ({ apolloClient, query }) => {
   const page = parseInt(query.page || "1", 10);
-  const first = 25;
+  const first = 30;
   const skip = page * first - first;
 
   const { data } = await apolloClient.query({
