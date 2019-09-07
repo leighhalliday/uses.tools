@@ -160,7 +160,11 @@ const HomeTools = ({ tools }) => (
       </div>
     ))}
 
-    <p>
+    <p
+      css={css`
+        text-align: center;
+      `}
+    >
       <Link href="/tools">
         <a>View All Tools</a>
       </Link>

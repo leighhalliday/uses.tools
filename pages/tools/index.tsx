@@ -84,7 +84,7 @@ const Tools = ({ tools, page, nextPage, prevPage }) => {
                 <h2
                   css={css`
                     text-align: left;
-                    margin-bottom: 0px;
+                    margin-bottom: 0.5rem;
                   `}
                 >
                   {tool.name}
@@ -96,7 +96,7 @@ const Tools = ({ tools, page, nextPage, prevPage }) => {
               <p
                 css={css`
                   font-size: 0.8rem;
-                  margin-top: 0.25rem;
+                  margin-top: 0px;
                   font-style: italic;
                 `}
               >
@@ -120,7 +120,7 @@ const Tools = ({ tools, page, nextPage, prevPage }) => {
                       display: block;
                       margin: 0 auto;
                       max-width: 100%;
-                      max-height: 250px;
+                      max-height: 150px;
                     `}
                     src={tool.ogImageUrl}
                     title={tool.ogTitle || tool.name}
