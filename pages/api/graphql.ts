@@ -136,14 +136,13 @@ const resolvers = {
   Query: {
     categories: (_parent, args: PaginationArgs, _context) => {
       const first = between(1, 50, args.first);
-      const skip = between(0, 50, args.skip);
 
       return db
         .select("*")
         .from("categories")
         .orderBy("position", "asc")
         .limit(first)
-        .offset(skip);
+        .offset(args.skip);
     },
 
     viewer: (_parent, _args, context) => {
@@ -160,14 +159,13 @@ const resolvers = {
 
     users: (_parent, args: PaginationArgs, _context) => {
       const first = between(1, 50, args.first);
-      const skip = between(0, 50, args.skip);
 
       return db
         .select("*")
         .from("users")
         .orderBy("created_at", "desc")
         .limit(first)
-        .offset(skip);
+        .offset(args.skip);
     },
 
     tool: (_parent, args: FindByIdArgs, _context) => {
@@ -180,7 +178,6 @@ const resolvers = {
 
     tools: (_parent, args: ToolsArgs, _context) => {
       const first = between(1, 50, args.first);
-      const skip = between(0, 50, args.skip);
 
       let scope = db.select("*").from("tools");
 
@@ -191,7 +188,7 @@ const resolvers = {
       return scope
         .orderBy("name", "asc")
         .limit(first)
-        .offset(skip);
+        .offset(args.skip);
     },
 
     featuredTools: (_parent, args: FeaturedToolsArgs, _context) => {
