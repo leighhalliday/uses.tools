@@ -51,9 +51,22 @@ async function insertUser(data: GithubData): Promise<User | null> {
   return await findUserBy("github_id", data.id);
 }
 
+async function updateUser(data: GithubData): Promise<User> {
+  await db("users")
+    .where({ github_id: data.id })
+    .update({
+      name: data.name,
+      website_url: data.blog,
+      github_url: data.html_url,
+      updated_at: new Date().toISOString()
+    });
+  return await findUserBy("github_id", data.id);
+}
+
 async function findOrCreateUser(data: GithubData) {
   let user = await findUserBy("github_id", data.id);
   if (user) {
+    user = await updateUser(data);
     return user;
   }
   user = await insertUser(data);
