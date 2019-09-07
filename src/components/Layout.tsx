@@ -121,10 +121,9 @@ export function Layout({ children }) {
           css={css`
             position: absolute;
             bottom: 0rem;
-            left: -1rem;
-            right: -1rem;
+            left: 0rem;
+            right: 0rem;
             padding: 1rem;
-            padding-left: 2rem;
           `}
         >
           <div
