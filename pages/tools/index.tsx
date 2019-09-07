@@ -46,7 +46,7 @@ const Tools = ({ tools, page, nextPage, prevPage }) => {
           text-align: center;
         `}
       >
-        Tools {page > 1 ? ` Page - ${page}` : null}
+        Tools {page > 1 ? ` Page ${page}` : null}
       </h1>
 
       <div
