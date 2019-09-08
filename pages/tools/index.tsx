@@ -53,59 +53,22 @@ const Tools = ({ tools, page, nextPage, prevPage }) => {
         css={css`
           margin: 0 auto;
           max-width: 1024px;
-          display: flex;
-          flex-wrap: wrap;
         `}
       >
         {tools.map(tool => (
           <div
             key={tool.id}
             css={css`
-              width: 50%;
-              margin-bottom: 2rem;
-              padding: 1.5rem;
-
-              @media (max-width: 800px) {
-                width: 100%;
-                padding: 0px;
-                margin-bottom: 1rem;
-              }
+              margin-bottom: 2.5rem;
+              display: flex;
+              flex-wrap: wrap;
             `}
           >
-            <Link
-              href={`/tools/[id]?id=${slugify(tool.id, tool.name)}`}
-              as={`/tools/${slugify(tool.id, tool.name)}`}
+            <div
+              css={css`
+                width: 60%;
+              `}
             >
-              <a
-                css={css`
-                  display: block;
-                `}
-              >
-                <h2
-                  css={css`
-                    text-align: left;
-                    margin-bottom: 0.5rem;
-                  `}
-                >
-                  {tool.name}
-                </h2>
-              </a>
-            </Link>
-
-            {tool.usersCount > 0 && (
-              <p
-                css={css`
-                  font-size: 0.8rem;
-                  margin-top: 0px;
-                  font-style: italic;
-                `}
-              >
-                Used by {tool.usersCount}{" "}
-                {tool.usersCount === 1 ? "person" : "people"}.
-              </p>
-            )}
-
-            {tool.ogImageUrl && (
               <Link
                 href={`/tools/[id]?id=${slugify(tool.id, tool.name)}`}
                 as={`/tools/${slugify(tool.id, tool.name)}`}
@@ -115,29 +78,72 @@ const Tools = ({ tools, page, nextPage, prevPage }) => {
                     display: block;
                   `}
                 >
-                  <img
+                  <h2
                     css={css`
-                      display: block;
-                      margin: 0 auto;
-                      max-width: 100%;
-                      max-height: 150px;
+                      text-align: left;
+                      margin-top: 0px;
+                      margin-bottom: 0.3rem;
                     `}
-                    src={tool.ogImageUrl}
-                    title={tool.ogTitle || tool.name}
-                  />
+                  >
+                    {tool.name}
+                  </h2>
                 </a>
               </Link>
-            )}
 
-            {tool.ogDescription && (
-              <p
-                css={css`
-                  margin-bottom: 0px;
-                `}
-              >
-                {truncate(tool.ogDescription, 150)}
-              </p>
-            )}
+              {tool.usersCount > 0 && (
+                <p
+                  css={css`
+                    font-size: 0.8rem;
+                    margin-top: 0px;
+                    margin-bottom: 0.3rem;
+                    font-style: italic;
+                  `}
+                >
+                  Used by {tool.usersCount}{" "}
+                  {tool.usersCount === 1 ? "person" : "people"}.
+                </p>
+              )}
+
+              {tool.ogDescription && (
+                <p
+                  css={css`
+                    margin: 0px;
+                  `}
+                >
+                  {truncate(tool.ogDescription, 200)}
+                </p>
+              )}
+            </div>
+
+            <div
+              css={css`
+                width: 40%;
+              `}
+            >
+              {tool.ogImageUrl && (
+                <Link
+                  href={`/tools/[id]?id=${slugify(tool.id, tool.name)}`}
+                  as={`/tools/${slugify(tool.id, tool.name)}`}
+                >
+                  <a
+                    css={css`
+                      display: block;
+                    `}
+                  >
+                    <img
+                      css={css`
+                        display: block;
+                        margin: 0 auto;
+                        max-width: 100%;
+                        max-height: 150px;
+                      `}
+                      src={tool.ogImageUrl}
+                      title={tool.ogTitle || tool.name}
+                    />
+                  </a>
+                </Link>
+              )}
+            </div>
           </div>
         ))}
       </div>
