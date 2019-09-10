@@ -39,9 +39,11 @@ async function getUser(accessToken) {
 }
 
 async function insertUser(data: GithubData): Promise<User | null> {
+  const username: string = data.login.toLowerCase();
+
   await db("users").insert({
-    name: data.name,
-    username: data.login.toLowerCase(),
+    name: data.name || username,
+    username: username,
     github_id: data.id,
     website_url: data.blog,
     github_url: data.html_url,
@@ -52,10 +54,12 @@ async function insertUser(data: GithubData): Promise<User | null> {
 }
 
 async function updateUser(data: GithubData): Promise<User> {
+  const username: string = data.login.toLowerCase();
+
   await db("users")
     .where({ github_id: data.id })
     .update({
-      name: data.name,
+      name: data.name || username,
       website_url: data.blog,
       github_url: data.html_url,
       updated_at: new Date().toISOString()
