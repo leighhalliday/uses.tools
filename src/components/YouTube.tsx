@@ -22,6 +22,7 @@ const YouTube = ({ id }: Props) => (
         left: 0;
         width: 100%;
         height: 100%;
+        border: none;
       `}
       src={`https://www.youtube.com/embed/${id}`}
       allow="autoplay; encrypted-media"
