@@ -64,6 +64,7 @@ const typeDefs = gql`
     ogDescription: String
     ogImageUrl: String
     twitterHandle: String
+    youtubeId: String
     usersCount: Int!
     userTools(first: Int = 50, skip: Int = 0): [UserTool!]!
   }
@@ -268,6 +269,7 @@ const resolvers = {
     ogDescription: (tool: Tool, _args, _context) => tool.og_description,
     ogImageUrl: (tool: Tool, _args, _context) => tool.og_image_url,
     twitterHandle: (tool: Tool, _args, _context) => tool.twitter_handle,
+    youtubeId: (tool: Tool, _args, _context) => tool.youtube_id,
     usersCount: (tool: Tool, _args, _context) => tool.users_count,
     userTools: async (tool, args: PaginationArgs, _context) => {
       const first = between(1, 100, args.first);

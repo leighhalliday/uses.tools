@@ -3,6 +3,7 @@ import Head from "next/head";
 import { css } from "@emotion/core";
 import Link from "next/link";
 import { Layout } from "@components/Layout";
+import YouTube from "@components/YouTube";
 
 const ToolShowQuery = gql`
   query ToolShowData($id: ID!) {
@@ -14,6 +15,7 @@ const ToolShowQuery = gql`
       ogTitle
       ogDescription
       twitterHandle
+      youtubeId
       userTools(first: 50) {
         id
         user {
@@ -123,6 +125,16 @@ const Tool = ({ tool }) => {
 
           {tool.ogDescription && <p>{tool.ogDescription}</p>}
         </div>
+
+        {tool.youtubeId && (
+          <div
+            css={css`
+              margin: 2rem 0px;
+            `}
+          >
+            <YouTube id={tool.youtubeId} />
+          </div>
+        )}
 
         <div>
           <h2

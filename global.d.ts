@@ -18,6 +18,7 @@ interface Tool {
   og_description: string | null;
   og_image_url: string | null;
   twitter_handle: string | null;
+  youtube_id: string | null;
   users_count: number;
   created_at: string | null;
   updated_at: string | null;
