@@ -326,23 +326,21 @@ const loader = {
   ),
 };
 
-export default async function Handler(req, res) {
-  const apolloServer = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: async ({ req }) => {
-      const token = decodeToken(req);
-      const currentUser = await currentUserFromToken(token);
+const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: async ({ req }) => {
+    const token = decodeToken(req);
+    const currentUser = await currentUserFromToken(token);
 
-      return {
-        currentUser,
-        loader,
-      };
-    },
-    plugins: [createApolloPlugin(appsignal)],
-  });
+    return {
+      currentUser,
+      loader,
+    };
+  },
+  plugins: [createApolloPlugin(appsignal)],
+});
 
-  const handler = apolloServer.createHandler({ path: "/api/graphql" });
+const handler = apolloServer.createHandler({ path: "/api/graphql" });
 
-  return handler(req, res);
-}
+export default handler;
