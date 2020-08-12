@@ -28,7 +28,7 @@ const Login = () => {
           >
             Connect with
             <img
-              src="/static/github.png"
+              src="/github.png"
               css={css`
                 height: 2rem;
               `}

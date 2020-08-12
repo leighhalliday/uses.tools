@@ -1,4 +1,5 @@
-import { IncomingMessage, ServerResponse } from "http";
+import { appsignal } from "../../appsignal";
+import { createApolloPlugin } from "@appsignal/apollo-server";
 import { ApolloServer, gql, AuthenticationError } from "apollo-server-micro";
 import DataLoader from "dataloader";
 import { db, findUserBy } from "@server/db";
@@ -170,11 +171,7 @@ const resolvers = {
     },
 
     tool: (_parent, args: FindByIdArgs, _context) => {
-      return db
-        .select("*")
-        .from("tools")
-        .where({ id: args.id })
-        .first();
+      return db.select("*").from("tools").where({ id: args.id }).first();
     },
 
     tools: (_parent, args: ToolsArgs, _context) => {
@@ -186,10 +183,7 @@ const resolvers = {
         scope = scope.where("name", "ilike", `%${args.search}%`);
       }
 
-      return scope
-        .orderBy("name", "asc")
-        .limit(first)
-        .offset(args.skip);
+      return scope.orderBy("name", "asc").limit(first).offset(args.skip);
     },
 
     featuredTools: (_parent, args: FeaturedToolsArgs, _context) => {
@@ -212,13 +206,13 @@ const resolvers = {
         .where("tools_count", ">", 0)
         .orderBy("created_at", "desc")
         .limit(first);
-    }
+    },
   },
 
   Mutation: {
     addTool: requireAuth(addTool),
     removeTool: requireAuth(removeTool),
-    editTool: requireAuth(editTool)
+    editTool: requireAuth(editTool),
   },
 
   User: {
@@ -248,7 +242,7 @@ const resolvers = {
         .orderBy("created_at", "asc")
         .limit(first)
         .offset(skip);
-    }
+    },
   },
 
   UserTool: {
@@ -260,7 +254,7 @@ const resolvers = {
     },
     category: async (userTool, _args, { loader }: Context) => {
       return loader.category.load(userTool.category_id);
-    }
+    },
   },
 
   Tool: {
@@ -282,22 +276,22 @@ const resolvers = {
         .orderBy("created_at", "desc")
         .limit(first)
         .offset(skip);
-    }
+    },
   },
 
   Category: {
-    id: (category, _args, _context) => category.id
+    id: (category, _args, _context) => category.id,
   },
 
   Viewer: {
-    user: (viewer, _args, _context) => viewer
-  }
+    user: (viewer, _args, _context) => viewer,
+  },
 };
 
 export const config = {
   api: {
-    bodyParser: false
-  }
+    bodyParser: false,
+  },
 };
 
 async function currentUserFromToken(token: Token | null): Promise<User | null> {
@@ -314,40 +308,41 @@ const loader = {
       .table("users")
       .whereIn("id", ids)
       .select()
-      .then(rows => ids.map(id => rows.find(x => x.id === id)))
+      .then((rows) => ids.map((id) => rows.find((x) => x.id === id)))
   ),
   tool: new DataLoader((ids: number[]) =>
     db
       .table("tools")
       .whereIn("id", ids)
       .select()
-      .then(rows => ids.map(id => rows.find(x => x.id === id)))
+      .then((rows) => ids.map((id) => rows.find((x) => x.id === id)))
   ),
   category: new DataLoader((ids: number[]) =>
     db
       .table("categories")
       .whereIn("id", ids)
       .select()
-      .then(rows => ids.map(id => rows.find(x => x.id === id)))
-  )
+      .then((rows) => ids.map((id) => rows.find((x) => x.id === id)))
+  ),
 };
 
-export default async (req: IncomingMessage, res: ServerResponse) => {
+export default async function Handler(req, res) {
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
-    context: async () => {
+    context: async ({ req }) => {
       const token = decodeToken(req);
       const currentUser = await currentUserFromToken(token);
 
       return {
         currentUser,
-        loader
+        loader,
       };
-    }
+    },
+    plugins: [createApolloPlugin(appsignal)],
   });
 
   const handler = apolloServer.createHandler({ path: "/api/graphql" });
 
   return handler(req, res);
-};
+}

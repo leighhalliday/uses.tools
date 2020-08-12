@@ -25,7 +25,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 
 const httpLink = new HttpLink({
   uri: `${process.env.BASE_URL}/api/graphql`,
-  fetch
+  fetch,
 });
 
 export function createBrowserClient() {
@@ -33,7 +33,7 @@ export function createBrowserClient() {
   const cookies = new Cookies();
 
   const authLink = setContext((_, oldContext) => {
-    return produce(oldContext, draft => {
+    return produce(oldContext, (draft) => {
       if (!draft.headers) {
         draft.headers = {};
       }
@@ -47,7 +47,7 @@ export function createBrowserClient() {
 
   const client = new ApolloClient({
     cache,
-    link: ApolloLink.from([errorLink, authLink, httpLink])
+    link: ApolloLink.from([errorLink, authLink, httpLink]),
   });
 
   return client;
@@ -58,7 +58,7 @@ export function createServerClient(req: IncomingMessage) {
   const cookies = new Cookies(req.headers.cookie);
 
   const authLink = setContext((_, oldContext) => {
-    return produce(oldContext, draft => {
+    return produce(oldContext, (draft) => {
       if (!draft.headers) {
         draft.headers = {};
       }
@@ -73,7 +73,7 @@ export function createServerClient(req: IncomingMessage) {
   const client = new ApolloClient({
     cache,
     link: ApolloLink.from([errorLink, authLink, httpLink]),
-    ssrMode: true
+    ssrMode: true,
   });
 
   return client;

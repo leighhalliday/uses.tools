@@ -31,7 +31,7 @@ const ToolShowQuery = gql`
 
 const ExternalLinkImage = () => (
   <img
-    src="/static/link-external.png"
+    src="/link-external.png"
     title="external"
     css={css`
       margin-left: 0.25rem;
@@ -197,7 +197,7 @@ Tool.getInitialProps = async ({ apolloClient, query }) => {
 
   const { data } = await apolloClient.query({
     query: ToolShowQuery,
-    variables: { id }
+    variables: { id },
   });
   const { tool } = data;
 
